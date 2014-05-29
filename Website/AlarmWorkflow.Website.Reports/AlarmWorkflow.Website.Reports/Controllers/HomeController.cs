@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Web.Mvc;
 
 namespace AlarmWorkflow.Website.Reports.Controllers
@@ -33,6 +34,11 @@ namespace AlarmWorkflow.Website.Reports.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult AccessDenied()
         {
             return View();
         }

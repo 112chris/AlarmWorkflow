@@ -31,6 +31,7 @@ using Microsoft.Win32;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
 {
+    [IpFilter]
     public class AlarmController : Controller
     {
         private Guid _guid = Guid.NewGuid();
