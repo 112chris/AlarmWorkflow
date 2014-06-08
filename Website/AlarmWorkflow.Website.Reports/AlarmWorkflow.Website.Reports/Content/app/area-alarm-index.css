@@ -1,36 +1,38 @@
 ﻿#paneError {
+    background-color: #000;
     display: table;
     height: 100%;
     width: 100%;
 }
-
-    /* Doing it like this is strictly speaking not too clean, but it allows to easily exchange the div contents. */
-    #paneError > span {
-        color: red;
-        font-size: 6em;
-        text-align: center;
-        font-weight: bold;
-        display: table-cell;
-        vertical-align: middle;
-    }
 
 #paneIdle {
+    background-color: #000;
     display: table;
     height: 100%;
     width: 100%;
 }
 
-    #paneIdle > span {
-        color: green;
-        font-size: 6em;
+    #paneIdle > table, #paneError > table {
+        height: 100%;
+        width: 100%;
         text-align: center;
-        font-weight: bold;
-        display: table-cell;
-        vertical-align: middle;
     }
 
+    #paneIdle > td, #paneError > td {
+        background-color: #AA0000;
+    }
+
+    #paneIdle > div, #paneError > div {
+        text-align: center;
+        width: 100%;
+        color: #FFFFFF;
+        font-weight: 700;
+    }
+
+
 #paneOperation {
-    background-color: #83C6FA;
+    background-color: black;
+    color: white;
     height: 100%;
     width: 100%;
 }
@@ -38,7 +40,7 @@
     #paneOperation > table {
         height: 100%;
         width: 100%;
-        font-size: 1.8em;
+        font-size: 3em;
         text-align: center;
     }
 
@@ -52,7 +54,23 @@
         }
 
 td.alarm {
-    border: 1px solid #000000;
+    border: 1px solid #555555;
+}
+
+td.alarmbig {
+    font-size: 72px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+td.alarmmid {
+    font-size: 56px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+td.alarmsml {
+    font-size: 30px;
 }
 
 .opcolumn {
