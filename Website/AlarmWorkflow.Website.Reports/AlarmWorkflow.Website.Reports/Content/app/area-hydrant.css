@@ -1,0 +1,41 @@
+﻿table {
+    width: 100%;
+    border: 1px solid grey;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+tr {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+    tr:nth-child(even) {
+        background: #CCC;
+    }
+
+    tr:nth-child(odd) {
+        background: #FFF;
+    }
+
+td {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+td.bold {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 635px) {
+    * {
+    }
+}

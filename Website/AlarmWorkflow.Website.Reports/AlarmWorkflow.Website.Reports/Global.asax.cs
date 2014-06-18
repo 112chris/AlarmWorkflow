@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Web.Configuration;
@@ -23,6 +24,7 @@ using System.Web.Routing;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.Backend.ServiceContracts.Communication.EndPointResolvers;
 using AlarmWorkflow.Shared.Diagnostics;
+using MySql.Data.Entity;
 
 namespace AlarmWorkflow.Website.Reports
 {
@@ -42,6 +44,8 @@ namespace AlarmWorkflow.Website.Reports
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            DbConfiguration.SetConfiguration(new MySqlEFConfiguration());
         }
 
         private void SetupWebsiteConfiguration()

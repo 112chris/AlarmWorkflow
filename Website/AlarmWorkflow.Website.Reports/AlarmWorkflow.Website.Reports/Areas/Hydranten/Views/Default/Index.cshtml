@@ -1,12 +1,43 @@
 ﻿@using AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
-@model IEnumerable<AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.HydrantModel>
+@model IEnumerable<AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant>
 @{
     ViewBag.Title = "Index";
 }
-
-<table>
-    @foreach (HydrantModel hydrant in Model)
+@section featured
+{
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Hydrantenübersicht</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+<table class="index">
+    <tr>
+        <th>Nr.</th>
+        <th>Straße</th>
+        <th>Hausnr.</th>
+        <th>Ort</th>
+        <th>Durchmesser</th>
+        <th>Prüfen</th>
+        <th colspan="3">Aktionen</th>
+    </tr>
+    @foreach (Hydrant hydrant in Model.OrderBy(x => x.ID))
     {
-        <tr></tr>
+        <tr>
+            <td>@hydrant.ID</td>
+            <td>@hydrant.Street</td>
+            <td>@hydrant.Housenumber</td>
+            <td>@hydrant.City</td>
+            <td>@hydrant.Diam</td>
+            <td>@(@hydrant.LastCheck.AddDays(300) < DateTime.Now ? "Ja!" : "Nein")</td>
+            <td>@Html.ActionLink("Details", "Details", new { id = hydrant.ID })</td>
+            <td>@Html.ActionLink("Bearbeiten", "Edit", new { id = hydrant.ID })</td>
+            <td>@Html.ActionLink("Löschen", "Delete", new { id = hydrant.ID })</td>
+        </tr>
     }
 </table>
+<div style="width: 100%; text-align: center; padding-top: 10px;">
+    @Html.ActionLink("Neuen Hydranten anlegen", "Create")
+</div>

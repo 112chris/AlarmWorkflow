@@ -1,4 +1,8 @@
-﻿@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.HydrantModel
+﻿@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant
 @{
     ViewBag.Title = "Bearbeiten";
+}
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(x=>x.NrFF)
 }

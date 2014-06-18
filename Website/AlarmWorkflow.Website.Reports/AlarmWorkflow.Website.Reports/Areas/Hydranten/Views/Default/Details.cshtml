@@ -1,4 +1,33 @@
-﻿@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.HydrantModel
+﻿@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant
 @{
     ViewBag.Title = "Details";
 }
+@section featured
+{
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Details zum Hydranten</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+
+<table>
+    <tr><th>Feld</th><th>Daten</th></tr>
+    <tr><td class="bold">Feuerwehr-Nr.</td><td>@Model.NrFF</td></tr>
+    <tr><td class="bold">Wasserwerke-Nr.</td><td>@Model.NrWW</td></tr>
+    <tr><td class="bold">Position</td><td>@Model.Street @Model.Housenumber, @Model.Postcode @Model.City - @Model.Suburb</td></tr>
+    <tr><td class="bold">Kommentar</td><td>@Model.Comment</td></tr>
+    <tr>
+        <td class="bold">Type</td>
+        <td>
+            @(@Model.Type ? "Unterflurhydrant" : "Überflurhydrant")
+        </td>
+    </tr>
+    <tr><td class="bold">Durchmesser</td><td>@Model.Diam</td></tr>
+    <tr><td class="bold">Druck</td><td>@Model.Pressure</td></tr>
+    <tr><td class="bold">Fördermenge</td><td>@Model.Amount</td></tr>
+    <tr><td class="bold">Letzte Prüfung</td><td>@Model.LastCheck.ToString("D")</td></tr>
+    <tr><td class="bold">Prüfung fällig?</td><td>@(@Model.LastCheck.AddDays(300) < DateTime.Now ? "Ja" : "Nein")</td></tr>
+</table>

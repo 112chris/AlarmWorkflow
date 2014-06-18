@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,16 +15,23 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
 
         public ActionResult Index()
         {
-            List<HydrantModel> hydranten = new List<HydrantModel>();
-            return View(hydranten);
-        }
+            using (Models.HydrantenContext model = new HydrantenContext())
+            {
+                return View(model.hydrantens.ToList());
+            }
+        } 
 
         //
         // GET: /Hydranten/Default/Details/5
 
         public ActionResult Details(int id)
         {
-            return View();
+            using (Models.HydrantenContext model = new HydrantenContext())
+            {
+                model.hydrant_ergebnis.Load();
+                model.hydrant_lage.Load();
+                return View(model.hydrantens.FirstOrDefault(x=>x.ID == id));
+            }
         }
 
         //
