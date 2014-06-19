@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Bearbeiten";
 }
-@using (Html.BeginForm())
-{
-    @Html.LabelFor(x=>x.NrFF)
-}
+<div>
+    @{
+        Html.RenderPartial("HydrantForm");
+    }
+</div>

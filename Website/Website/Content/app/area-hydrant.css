@@ -29,12 +29,19 @@ th {
     border: 1px solid grey;
     border-collapse: collapse;
     text-align: center;
+    font-size: 16px;
+    background: #7ac0da;
 }
 
 td.bold {
     font-weight: bold;
 }
 
+td.section {
+    font-weight: bold;
+    font-size: 16px;
+    background: #7ac0da;
+}
 @media only screen and (max-width: 635px) {
     * {
     }

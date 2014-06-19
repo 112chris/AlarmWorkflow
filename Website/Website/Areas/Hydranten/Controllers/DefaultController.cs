@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AlarmWorkflow.Website.Reports.Areas.Hydranten.Models;
+using AlarmWorkflow.Website.Reports.Filters;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
 {
@@ -15,22 +18,22 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
 
         public ActionResult Index()
         {
-            using (Models.HydrantenContext model = new HydrantenContext())
+            using (HydrantenContext context = new HydrantenContext())
             {
-                return View(model.hydrantens.ToList());
+                return View(context.hydrantens.ToList());
             }
-        } 
+        }
 
         //
         // GET: /Hydranten/Default/Details/5
 
         public ActionResult Details(int id)
         {
-            using (Models.HydrantenContext model = new HydrantenContext())
+            using (HydrantenContext context = new HydrantenContext())
             {
-                model.hydrant_ergebnis.Load();
-                model.hydrant_lage.Load();
-                return View(model.hydrantens.FirstOrDefault(x=>x.ID == id));
+                context.hydrant_ergebnis.Load();
+                context.hydrant_lage.Load();
+                return View(context.hydrantens.FirstOrDefault(x => x.ID == id));
             }
         }
 
@@ -46,17 +49,28 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
         // POST: /Hydranten/Default/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Hydrant model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                try
+                {
+                    using (HydrantenContext context = new HydrantenContext())
+                    {
+                        context.hydrantens.AddOrUpdate(model);
+                        context.SaveChanges();
+                    }
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
+            else
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -65,23 +79,36 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            using (HydrantenContext context = new HydrantenContext())
+            {
+                context.hydrant_ergebnis.Load();
+                context.hydrant_lage.Load();
+                return View(context.hydrantens.FirstOrDefault(x => x.ID == id));
+            }
         }
 
         //
         // POST: /Hydranten/Default/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Hydrant model)
         {
             try
             {
-                // TODO: Add update logic here
+                using (HydrantenContext context = new HydrantenContext())
+                {
+                    context.hydrantens.AddOrUpdate(model);
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                if (ex is DbEntityValidationException)
+                {
+                    var errors = (ex as DbEntityValidationException).EntityValidationErrors;
+                }
                 return View();
             }
         }
@@ -98,11 +125,15 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
         // POST: /Hydranten/Default/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Hydrant model)
         {
             try
             {
-                // TODO: Add delete logic here
+                using (HydrantenContext context = new HydrantenContext())
+                {
+                    context.hydrantens.Remove(context.hydrantens.First(x => x.ID == id));
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }

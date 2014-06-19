@@ -23,12 +23,19 @@
         }
         else
         {
-            <span>Dies kann verschiedene Ursachen haben.
+            <span>
+                Dies kann verschiedene Ursachen haben.
             </span>
         }
 
         <br />
         <br />
-        Benachrichtigen Sie Ihren Administrator und laden Sie ggf. die Seite erneut. 
+        Benachrichtigen Sie Ihren Administrator und laden Sie ggf. die Seite erneut.
+        <p>
+            @Model.Exception.Message
+        </p>
+        <p>
+            @Model.Exception.StackTrace
+        </p>
     </p>
 </p>

@@ -29,6 +29,7 @@ using AlarmWorkflow.Website.Reports.Filters;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Controllers
 {
+    [IpFilter]
     public class AlarmsController : Controller
     {
         /// <summary>

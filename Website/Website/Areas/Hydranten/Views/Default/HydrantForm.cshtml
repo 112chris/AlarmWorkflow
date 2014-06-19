@@ -1,0 +1,122 @@
+﻿@using AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
+@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <p>
+            @Html.LabelFor(x => x.NrFF)
+            @Html.EditorFor(x => x.NrFF)
+            @Html.ValidationMessageFor(x => x.NrFF)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.NrWW)
+            @Html.EditorFor(x => x.NrWW)
+            @Html.ValidationMessageFor(x => x.NrWW)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Barcode)
+            @Html.EditorFor(x => x.Barcode)
+            @Html.ValidationMessageFor(x => x.Barcode)
+        </p>
+        <h3>Lage</h3>
+        <p>
+            @Html.LabelFor(x => x.Street)
+            @Html.EditorFor(x => x.Street)
+            @Html.ValidationMessageFor(x => x.Street)
+
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Housenumber)
+            @Html.EditorFor(x => x.Housenumber)
+            @Html.ValidationMessageFor(x => x.Housenumber)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Postcode)
+            @Html.EditorFor(x => x.Postcode)
+            @Html.ValidationMessageFor(x => x.Postcode)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.City)
+            @Html.EditorFor(x => x.City)
+            @Html.ValidationMessageFor(x => x.City)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Suburb)
+            @Html.EditorFor(x => x.Suburb)
+            @Html.ValidationMessageFor(x => x.Suburb)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Lat)
+            @Html.EditorFor(x => x.Lat)
+            @Html.ValidationMessageFor(x => x.Lat)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Lng)
+            @Html.EditorFor(x => x.Lng)
+            @Html.ValidationMessageFor(x => x.Lng)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Location)
+            @using (HydrantenContext context = new HydrantenContext())
+            {
+                if (Model != null)
+                {
+                    @Html.DropDownListFor(x => x.Location, new SelectList(context.hydrant_lage.ToList(), "ID", "Description", Model.Location))
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Location, new SelectList(context.hydrant_lage.ToList(), "ID", "Description", context.hydrant_lage.First().ID))
+                }
+            }
+            @Html.ValidationMessageFor(x => x.Location)
+        </p>
+        <h3>Technische Daten</h3>
+        <p>
+            @Html.LabelFor(x => x.Diam)
+            @Html.EditorFor(x => x.Diam)
+            @Html.ValidationMessageFor(x => x.Diam)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Pressure)
+            @Html.EditorFor(x => x.Pressure)
+            @Html.ValidationMessageFor(x => x.Pressure)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Amount)
+            @Html.EditorFor(x => x.Amount)
+            @Html.ValidationMessageFor(x => x.Amount)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Type)
+            @Html.CheckBoxFor(x => x.Type)
+            @Html.ValidationMessageFor(x => x.Type)
+        </p>
+        <h3>Prüfung</h3>
+        <p>
+            @Html.LabelFor(x => x.LastCheck)
+            @Html.EditorFor(x => x.LastCheck)
+            @Html.ValidationMessageFor(x => x.LastCheck)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.LastResult)
+            @using (HydrantenContext context = new HydrantenContext())
+            {
+                if (Model != null)
+                {
+                    @Html.DropDownListFor(x => x.LastResult, new SelectList(context.hydrant_ergebnis.ToList(), "ID", "Description", Model.LastResult))
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.LastResult, new SelectList(context.hydrant_ergebnis.ToList(), "ID", "Description", context.hydrant_ergebnis.First().ID))
+                }
+            }
+            @Html.ValidationMessageFor(x => x.LastResult)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.CommentCheck)
+            @Html.EditorFor(x => x.CommentCheck)
+            @Html.ValidationMessageFor(x => x.CommentCheck)
+        </p>
+        <input type="submit" value="Speichern" />
+    </fieldset>
+}
