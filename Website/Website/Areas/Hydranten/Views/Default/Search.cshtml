@@ -1,0 +1,24 @@
+﻿@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.SearchModel
+@{
+    ViewBag.Title = "Search";
+}
+@section featured
+{
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Hydranten suchen</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.LabelFor(x => x.QueryString)
+        @Html.EditorFor(x => x.QueryString)
+        @Html.ValidationMessageFor(x => x.QueryString)
+
+    </p>
+    <input type="submit" value="Suchen"/>
+}

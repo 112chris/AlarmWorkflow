@@ -2,3 +2,20 @@
 @{
     ViewBag.Title = "Löschen";
 }
+@section featured
+{
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Hydranten löschen</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+@using (Html.BeginForm())
+{
+    <div style="width: 100%; text-align: center;">
+        <div>Möchten Sie den Hydranten wirklich löschen?</div>
+        <input type="submit" value="Ja" /><input type="button" onclick="window.location = '@Url.Action("Index")'" value="Nein" />
+    </div>
+}

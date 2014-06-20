@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using AlarmWorkflow.Website.Reports.Areas.Hydranten.Models;
@@ -142,5 +144,54 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
                 return View();
             }
         }
+
+        public ActionResult Search(string q)
+        {
+            if (q != null)
+            {
+                List<Hydrant> hydranten = SearchHydranten(q).ToList();
+                return View("Index", hydranten);
+            }
+            SearchModel model = new SearchModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Search(SearchModel model)
+        {
+            List<Hydrant> hydranten = SearchHydranten(model.QueryString).ToList();
+
+            return View("Index", hydranten);
+        }
+
+        public IEnumerable<Hydrant> SearchHydranten(string search)
+        {
+            using (HydrantenContext context = new HydrantenContext())
+            {
+                PropertyInfo[] properties = typeof(Hydrant).GetProperties();
+                foreach (Hydrant hydrant in context.hydrantens)
+                {
+                    foreach (PropertyInfo property in properties)
+                    {
+                        object value;
+                        try
+                        {
+                           value = property.GetValue(hydrant, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            //Well in some properties I can't search ... go on and hope that I find a matching one!
+                            continue;
+                        }
+                        if (value != null && Convert.ToString(value).Contains(search))
+                        {
+                            yield return hydrant;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

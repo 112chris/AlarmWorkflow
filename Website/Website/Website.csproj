@@ -221,6 +221,7 @@
     <Compile Include="Areas\Hydranten\Models\HydrantenContext.cs" />
     <Compile Include="Areas\Hydranten\Models\Hydrant_Ergebnis.cs" />
     <Compile Include="Areas\Hydranten\Models\Hydrant_Lage.cs" />
+    <Compile Include="Areas\Hydranten\Models\SearchModel.cs" />
     <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
     <Compile Include="Areas\Reporting\Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -409,6 +410,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Hydranten\Views\Default\HydrantForm.cshtml" />
+    <Content Include="Areas\Hydranten\Views\Default\Search.cshtml" />
     <None Include="Properties\PublishProfiles\Default.pubxml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
   </ItemGroup>

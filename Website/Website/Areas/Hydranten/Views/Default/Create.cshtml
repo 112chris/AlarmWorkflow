@@ -2,6 +2,16 @@
 @{
     ViewBag.Title = "Erstellen";
 }
+@section featured
+{
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Neuen Hydranten anlegen</h1>
+            </hgroup>
+        </div>
+    </section>
+}
 <div>
     @{
         Html.RenderPartial("HydrantForm");

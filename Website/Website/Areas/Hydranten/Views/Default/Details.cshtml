@@ -12,7 +12,12 @@
         </div>
     </section>
 }
-
+@section scripts
+{
+    <!--
+        Integrate OSM View
+        -->
+}
 <table>
     <tr><th>Feld</th><th>Daten</th></tr>
     <tr><td class="bold">Feuerwehr-Nr.</td><td>@Model.NrFF</td></tr>
@@ -36,8 +41,8 @@
     <tr><td class="bold">Ergebnis letzte Prüfung</td><td>@Model.hydrant_ergebnis.Description</td></tr>
     <tr><td class="bold">Kommentar Prüfung</td><td>@Model.CommentCheck</td></tr>
     <tr><td class="bold">Prüfung fällig?</td><td>@(@Model.LastCheck.AddDays(300) < DateTime.Now ? "Ja" : "Nein")</td></tr>
-
-    
 </table>
-@Html.ActionLink("Bearbeiten", "Edit", new { id = Model.ID })
-@Html.ActionLink("Löschen", "Delete", new { id = Model.ID })
+<div style="width: 100%; text-align: center; padding-top: 10px;">
+    @Html.ActionLink("Bearbeiten", "Edit", new { id = Model.ID })
+    @Html.ActionLink("Löschen", "Delete", new { id = Model.ID })
+</div>
