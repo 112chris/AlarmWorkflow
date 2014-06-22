@@ -9,18 +9,11 @@
     <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
              Description="Verzeichnis für analysierte Faxe." />
 
-    <Setting Name="OCR.Software" DisplayText="OCR-Software" Category="OCR-Software" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.Extensibility.IOcrSoftware, AlarmWorkflow.AlarmSource.Fax"
-             Description="Welche Texterkennungssoftware zur Erkennung des Faxes benutzt wird." />
-    <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="OCR-Software" Editor="DirectoryTypeEditor"
-             Description="Wenn leer gelassen, wird das Standardverzeichnis genommen."/>
+    <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="Tesseract OCR-Software" Editor="DirectoryTypeEditor"
+             Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen."/>
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." />
-
-    <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert"
-             Description="Der Abstand zur Überprüfung auf neue Faxe im Faxeingangs-Verzeichnis."
-             Editor="DurationTypeEditor"
-             EditorParameter="Min=500;Max=60000;Scale=Milliseconds" />
 
     <Setting Name="FaxWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
              Description="Nur Faxe mit min. einem dieser Worte werden ausgewertet. Wird vor der Blacklist ausgewertet." />
