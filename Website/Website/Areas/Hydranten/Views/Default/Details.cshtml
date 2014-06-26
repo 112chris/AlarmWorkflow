@@ -1,4 +1,5 @@
-﻿@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant
+﻿@using System.Globalization
+@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant
 @{
     ViewBag.Title = "Details";
 }
@@ -14,35 +15,90 @@
 }
 @section scripts
 {
-    <!--
-        Integrate OSM View
-        -->
+    <style>
+        .col {
+            width: 50%;
+            float: left;
+        }
+
+        #oosm {
+            height: 300px;
+        }
+
+        .col > .subcol {
+            padding: 3px;
+        }
+
+        .col img {
+            width: 100%;
+        }
+
+        @@media only screen and (max-device-width: 480px), only screen and (max-width: 480px) {
+            .col {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            osm = L.map('oosm');
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(osm);
+            L.tileLayer('http://www.openfiremap.org/hytiles/{z}/{x}/{y}.png').addTo(osm);
+            osm.setView([@Model.Lat.ToString(CultureInfo.InvariantCulture), @Model.Lng.ToString(CultureInfo.InvariantCulture)], 16);
+            L.marker([@Model.Lat.ToString(CultureInfo.InvariantCulture), @Model.Lng.ToString(CultureInfo.InvariantCulture)]).addTo(osm);
+
+        });
+    </script>
 }
-<table>
-    <tr><th>Feld</th><th>Daten</th></tr>
-    <tr><td class="bold">Feuerwehr-Nr.</td><td>@Model.NrFF</td></tr>
-    <tr><td class="bold">Wasserwerke-Nr.</td><td>@Model.NrWW</td></tr>
-    <tr><td class="bold">Barcode</td><td>@Model.Barcode</td></tr>
-    <tr><td class="section" colspan="2">Lage</td></tr>
-    <tr><td class="bold">Position</td><td>@Model.Street @Model.Housenumber, @Model.Postcode @Model.City - @Model.Suburb</td></tr>
-    <tr><td class="bold">Kommentar</td><td>@Model.Comment</td></tr>
-    <tr>
-        <td class="bold">Type</td>
-        <td>
-            @(@Model.Type ? "Unterflurhydrant" : "Überflurhydrant")
-        </td>
-    </tr>
-    <tr><td class="section" colspan=" 2">Technische Daten</td></tr>
-    <tr><td class="bold">Durchmesser</td><td>@Model.Diam</td></tr>
-    <tr><td class="bold">Druck</td><td>@Model.Pressure</td></tr>
-    <tr><td class="bold">Fördermenge</td><td>@Model.Amount</td></tr>
-    <tr><td class="section" colspan="2">Prüfung</td></tr>
-    <tr><td class="bold">Letzte Prüfung</td><td>@Model.LastCheck.ToString("D")</td></tr>
-    <tr><td class="bold">Ergebnis letzte Prüfung</td><td>@Model.hydrant_ergebnis.Description</td></tr>
-    <tr><td class="bold">Kommentar Prüfung</td><td>@Model.CommentCheck</td></tr>
-    <tr><td class="bold">Prüfung fällig?</td><td>@(@Model.LastCheck.AddDays(300) < DateTime.Now ? "Ja" : "Nein")</td></tr>
-</table>
-<div style="width: 100%; text-align: center; padding-top: 10px;">
+<div class="col">
+    <div class="subcol">
+        <table>
+            <tr><th>Feld</th><th>Daten</th></tr>
+            <tr><td class="bold">Feuerwehr-Nr.</td><td>@Model.NrFF</td></tr>
+            <tr><td class="bold">Wasserwerke-Nr.</td><td>@Model.NrWW</td></tr>
+            <tr><td class="bold">Barcode</td><td>@Model.Barcode</td></tr>
+            <tr><td class="section" colspan="2">Lage</td></tr>
+            <tr><td class="bold">Position</td><td>@Model.Street @Model.Housenumber, @Model.Postcode @Model.City - @Model.Suburb</td></tr>
+            <tr><td class="bold">Kommentar</td><td>@Model.Comment</td></tr>
+            <tr>
+                <td class="bold">Type</td>
+                <td>
+                    @(@Model.Type ? "Unterflurhydrant" : "Überflurhydrant")
+                </td>
+            </tr>
+            <tr><td class="section" colspan=" 2">Technische Daten</td></tr>
+            <tr><td class="bold">Durchmesser</td><td>@Model.Diam</td></tr>
+            <tr><td class="bold">Druck</td><td>@Model.Pressure</td></tr>
+            <tr><td class="bold">Fördermenge</td><td>@Model.Amount</td></tr>
+            <tr><td class="section" colspan="2">Prüfung</td></tr>
+            <tr><td class="bold">Letzte Prüfung</td><td>@Model.LastCheck.ToString("D")</td></tr>
+            <tr><td class="bold">Ergebnis letzte Prüfung</td><td>@Model.hydrant_ergebnis.Description</td></tr>
+            <tr><td class="bold">Kommentar Prüfung</td><td>@Model.CommentCheck</td></tr>
+            <tr><td class="bold">Prüfung fällig?</td><td>@(@Model.LastCheck.AddDays(300) < DateTime.Now ? "Ja" : "Nein")</td></tr>
+        </table>
+    </div>
+</div>
+<div class="col">
+    <div class="subcol">
+        <div id="oosm">
+
+        </div>
+    </div>
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+{
+    <div class="col">
+        <div class="subcol">
+            <img src="@Url.Action("GetImage",new { id = Model.ID })" />
+        </div>
+    </div>
+}
+<div style="width: 100%; text-align: center; padding-top: 10px; clear: both">
     @Html.ActionLink("Bearbeiten", "Edit", new { id = Model.ID })
     @Html.ActionLink("Löschen", "Delete", new { id = Model.ID })
 </div>

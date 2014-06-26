@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
+using System.Web;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
 {
@@ -21,7 +22,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("hydranten.hydranten")]
+    [Table("alarmworkflow.hydranten")]
     public partial class Hydrant
     {
         [DisplayName("Interne Datenbanknummer")]
@@ -71,10 +72,10 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
         public string Comment { get; set; }
 
         [DisplayName("Latitude")]
-        public decimal Lat { get; set; }
+        public float Lat { get; set; }
 
         [DisplayName("Longitude")]
-        public decimal Lng { get; set; }
+        public float Lng { get; set; }
 
         [DisplayName("Oberflurhydrant")]
         [Required]
@@ -108,6 +109,14 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
         [Required]
         [StringLength(16777215)]
         public string CommentCheck { get; set; }
+
+        [StringLength(16777215)]
+        [DisplayName("Bild")]
+        public string ImagePath { get; set; }
+        
+        [DisplayName("Bild")]
+        [NotMapped]
+        public HttpPostedFileBase UploadFile { get; set; }
 
         public virtual Hydrant_Ergebnis hydrant_ergebnis { get; set; }
 

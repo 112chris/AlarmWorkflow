@@ -19,7 +19,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("hydranten.hydrant_lage")]
+    [Table("alarmworkflow.hydrant_lage")]
     public partial class Hydrant_Lage
     {
         public Hydrant_Lage()

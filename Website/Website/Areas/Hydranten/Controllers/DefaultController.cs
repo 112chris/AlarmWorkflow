@@ -19,12 +19,15 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using AlarmWorkflow.Website.Reports.Areas.Hydranten.Models;
 using AlarmWorkflow.Website.Reports.Filters;
+using Microsoft.Win32;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
 {
@@ -70,6 +73,16 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.UploadFile != null)
+                {
+                    string mapPath = Server.MapPath("~/upload/");
+                    if (!Directory.Exists(mapPath))
+                    {
+                        Directory.CreateDirectory(mapPath);
+                    }
+                    model.UploadFile.SaveAs(Path.Combine(mapPath, model.UploadFile.FileName));
+                    model.ImagePath = model.UploadFile.FileName;
+                }
                 try
                 {
                     using (HydrantenContext context = new HydrantenContext())
@@ -82,12 +95,29 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
                 }
                 catch
                 {
-                    return View();
+                    return View(model);
                 }
             }
             else
             {
                 return View(model);
+            }
+        }
+
+        public ActionResult GetImage(int id)
+        {
+            using (HydrantenContext context = new HydrantenContext())
+            {
+                Hydrant hydrant = context.hydrantens.FirstOrDefault(x => x.ID == id);
+                if (hydrant == null || string.IsNullOrWhiteSpace(hydrant.ImagePath))
+                {
+                    return null;
+                }
+                else
+                {
+                    string mapPath = Server.MapPath("~/upload/");
+                    return File(Path.Combine(mapPath, hydrant.ImagePath), GetMimeType(hydrant.ImagePath));
+                }
             }
         }
 
@@ -110,23 +140,36 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Hydrant model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                using (HydrantenContext context = new HydrantenContext())
+                if (model.UploadFile != null)
                 {
-                    context.hydrantens.AddOrUpdate(model);
-                    context.SaveChanges();
+                    string mapPath = Server.MapPath("~/upload/");
+                    if (!Directory.Exists(mapPath))
+                    {
+                        Directory.CreateDirectory(mapPath);
+                    }
+                    model.UploadFile.SaveAs(Path.Combine(mapPath, model.UploadFile.FileName));
+                    model.ImagePath = model.UploadFile.FileName;
                 }
+                try
+                {
+                    using (HydrantenContext context = new HydrantenContext())
+                    {
+                        context.hydrantens.AddOrUpdate(model);
+                        context.SaveChanges();
+                    }
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                if (ex is DbEntityValidationException)
-                {
-                    var errors = (ex as DbEntityValidationException).EntityValidationErrors;
+                    return RedirectToAction("Index");
                 }
-                return View();
+                catch (Exception ex)
+                {
+                    return View(model);
+                }
+            }
+            else
+            {
+                return View(model);
             }
         }
 
@@ -191,7 +234,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
                         object value;
                         try
                         {
-                           value = property.GetValue(hydrant, null);
+                            value = property.GetValue(hydrant, null);
                         }
                         catch (Exception ex)
                         {
@@ -206,6 +249,21 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Controllers
                     }
                 }
             }
+        }
+
+        private static string GetMimeType(string path)
+        {
+            const string unkownMimeType = "application/unknown";
+            RegistryKey regKey = Registry.ClassesRoot.OpenSubKey(Path.GetExtension(path).ToLower());
+
+            if (regKey == null)
+            {
+                return unkownMimeType;
+            }
+
+            object contentType = regKey.GetValue("Content Type");
+
+            return (contentType == null) ? unkownMimeType : contentType.ToString();
         }
 
     }

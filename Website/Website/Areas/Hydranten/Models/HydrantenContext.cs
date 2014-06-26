@@ -77,6 +77,10 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
             modelBuilder.Entity<Hydrant>()
                 .Property(e => e.CommentCheck)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Hydrant>()
+                .Property(e => e.ImagePath)
+                .IsUnicode(false);
         }
     }
 }

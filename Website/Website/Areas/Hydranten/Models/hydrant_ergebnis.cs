@@ -21,7 +21,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("hydranten.hydrant_ergebnis")]
+    [Table("alarmworkflow.hydrant_ergebnis")]
     public partial class Hydrant_Ergebnis
     {
         public Hydrant_Ergebnis()

@@ -1,6 +1,6 @@
 ﻿@using AlarmWorkflow.Website.Reports.Areas.Hydranten.Models
-@model AlarmWorkflow.Website.Reports.Areas.Hydranten.Models.Hydrant
-@using (Html.BeginForm())
+@model Hydrant
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <fieldset>
         <p>
@@ -116,6 +116,11 @@
             @Html.LabelFor(x => x.CommentCheck)
             @Html.EditorFor(x => x.CommentCheck)
             @Html.ValidationMessageFor(x => x.CommentCheck)
+        </p>
+        <p>
+            @Html.LabelFor(x => x.UploadFile)
+            <input type="file" name="UploadFile" id="UploadFile" />
+            @Html.ValidationMessageFor(x => x.UploadFile)
         </p>
         <input type="submit" value="Speichern" />
     </fieldset>
